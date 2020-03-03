@@ -23,7 +23,7 @@ import 'package:flutter_flux/src/action.dart';
 ///
 /// General guidelines with respect to a `Store`'s data:
 /// - A `Store`'s data should not be exposed for direct mutation.
-/// - A `Store`'s data should be mutated internally in response to [Action]s.
+/// - A `Store`'s data should be mutated internally in response to [FluxAction]s.
 /// - A `Store` should expose relevant data ONLY via public getters.
 ///
 /// To receive notifications of a `Store`'s data mutations, `Store`s can be
@@ -79,7 +79,7 @@ class Store {
   /// A convenience method for listening to an [action] and triggering
   /// automatically. The callback doesn't call return, so the return
   /// type of onAction is null.
-  void triggerOnAction<T>(Action<T> action,
+  void triggerOnAction<T>(FluxAction<T> action,
       [dynamic onAction(T payload)]) {
     if (onAction != null) {
       action.listen((T payload) async {
@@ -101,7 +101,7 @@ class Store {
   /// called until that future has resolved and the function returns either
   /// void (null) or true.
   void triggerOnConditionalAction<T>(
-      Action<T> action, FutureOr<bool> onAction(T payload)) {
+      FluxAction<T> action, FutureOr<bool> onAction(T payload)) {
     assert(action != null);
     action.listen((dynamic payload) async {
       // Action functions must return bool, or a Future<bool>.

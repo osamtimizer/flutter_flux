@@ -58,5 +58,5 @@ class ChatUserStore extends Store {
 final StoreToken messageStoreToken = new StoreToken(new ChatMessageStore());
 final StoreToken userStoreToken = new StoreToken(new ChatUserStore());
 
-final Action<String> setCurrentMessageAction = new Action<String>();
-final Action<ChatUser> commitCurrentMessageAction = new Action<ChatUser>();
+final FluxAction<String> setCurrentMessageAction = new FluxAction<String>();
+final FluxAction<ChatUser> commitCurrentMessageAction = new FluxAction<ChatUser>();

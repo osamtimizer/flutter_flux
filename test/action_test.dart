@@ -20,22 +20,22 @@ import 'package:test/test.dart';
 
 void main() {
   group('Action', () {
-    Action<String> action;
+    FluxAction<String> action;
 
     setUp(() {
-      action = new Action<String>();
+      action = new FluxAction<String>();
     });
 
     test('should only be equivalent to itself', () {
-      final Action<Null> _action = new Action<Null>();
-      final Action<Null> _action2 = new Action<Null>();
+      final FluxAction<Null> _action = new FluxAction<Null>();
+      final FluxAction<Null> _action2 = new FluxAction<Null>();
       expect(_action == _action, isTrue);
       expect(_action == _action2, isFalse);
     });
 
     test('should support dispatch without a payload', () async {
       final Completer<Null> c = new Completer<Null>();
-      final Action<String> _action = new Action<String>();
+      final FluxAction<String> _action = new FluxAction<String>();
 
       _action.listen((String payload) {
         expect(payload, equals(null));
@@ -72,7 +72,7 @@ void main() {
       test(
           'should invoke and complete synchronous listeners in future event in '
           'event queue', () async {
-        final Action<Null> action = new Action<Null>();
+        final FluxAction<Null> action = new FluxAction<Null>();
         bool listenerCompleted = false;
         action.listen((Null _) {
           listenerCompleted = true;
@@ -90,7 +90,7 @@ void main() {
       test(
           'should invoke asynchronous listeners in future event and complete '
           'in another future event', () async {
-        final Action<Null> action = new Action<Null>();
+        final FluxAction<Null> action = new FluxAction<Null>();
         bool listenerInvoked = false;
         bool listenerCompleted = false;
         action.listen((Null _) async {
@@ -115,7 +115,7 @@ void main() {
       });
 
       test('should complete future after listeners complete', () async {
-        final Action<Null> action = new Action<Null>();
+        final FluxAction<Null> action = new FluxAction<Null>();
         bool asyncListenerCompleted = false;
         action.listen((Null _) async {
           await new Future<Null>.delayed(new Duration(milliseconds: 100), () {
@@ -131,7 +131,7 @@ void main() {
       });
 
       test('should surface errors in listeners', () {
-        Action<int> action = new Action<int>();
+        FluxAction<int> action = new FluxAction<int>();
         action.listen((int _) => throw new UnimplementedError());
         expect(action(0), throwsUnimplementedError);
       });
@@ -139,7 +139,7 @@ void main() {
 
     group('listen', () {
       test('should stop listening when subscription is canceled', () async {
-        Action<Null> action = new Action<Null>();
+        FluxAction<Null> action = new FluxAction<Null>();
         bool listened = false;
         ActionSubscription subscription = action.listen((Null _) => listened = true);
 
@@ -153,7 +153,7 @@ void main() {
       });
 
       test('should stop listening when listeners are cleared', () async {
-        final Action<Null> action = new Action<Null>();
+        final FluxAction<Null> action = new FluxAction<Null>();
         bool listened = false;
         action.listen((Null _) => listened = true);
 
@@ -172,7 +172,7 @@ void main() {
         const int sampleSize = 1000;
         final Stopwatch stopwatch = new Stopwatch();
 
-        final Action<Null> awaitableAction = new Action<Null>();
+        final FluxAction<Null> awaitableAction = new FluxAction<Null>();
         awaitableAction.listen((Null _) {});
         awaitableAction.listen((Null _) async {});
         stopwatch.start();
@@ -187,7 +187,7 @@ void main() {
 
         Completer<Null> syncCompleter;
         Completer<Null> asyncCompleter;
-        Action<Null> action = new Action<Null>();
+        FluxAction<Null> action = new FluxAction<Null>();
         action.listen((Null _) => syncCompleter.complete());
         action.listen((Null _) async {
           asyncCompleter.complete();

@@ -23,11 +23,11 @@ import 'package:test/test.dart';
 void main() {
   group('Store', () {
     Store store;
-    Action<Null> action;
+    FluxAction<Null> action;
 
     setUp(() {
       store = new Store();
-      action = new Action<Null>();
+      action = new FluxAction<Null>();
     });
 
     tearDown(() {
@@ -115,7 +115,7 @@ void main() {
     test(
         'should execute a given method and then trigger in response to an action with payload',
         () {
-      final Action<int> _action = new Action<int>();
+      final FluxAction<int> _action = new FluxAction<int>();
       int counter = 0;
       store.triggerOnAction(_action, (int payload) => counter = payload);
       store.listen(expectAsync1((Store listenedStore) {
